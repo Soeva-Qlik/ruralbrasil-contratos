@@ -8,11 +8,12 @@ LOAD
 LOAD
     IF(MOEDA='REAIS','BRL','USD')	as	CodMoeda,
     IF(MOEDA='REAIS',1,0)			as	FlagMoedaReais,
-    CODIGO,
+    //CODIGO,
     REGIONAL,
     UNIDADE,
     VENDEDOR,
-    "COD. CICLO" 					as CodigoCiclo,
+    CODI_EMP AS CODIGO,
+    CODIGO_CICLO					as CodigoCiclo,
     CICLO,
     COMODITIE,
     "TIPO CONTRATO",    
@@ -56,7 +57,7 @@ LOAD
     DT_ULT_MANUT,
     USUARIO
 FROM 
-	[lib://1.Transform/Siagri/VW_CONTRATOS_V3_TABLEAU.qvd](qvd)
+	[lib://1.Transform/Siagri/VW_CONTRATOS_V3.qvd](qvd)
 WHERE
 	NOT MATCH("TIPO CONTRATO PADRAO",
     'ARMZ REMETIDO P/DEPOSITO',
