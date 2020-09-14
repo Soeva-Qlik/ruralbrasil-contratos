@@ -1,0 +1,12 @@
+///$tab TableClassificação
+TableClassificacao:
+Load * inline [
+	REGIONAL,ORDEM
+	JATAI,1
+	RIO VERDE,2
+    QUERENCIA,3
+    CANARANA,4
+    PRIMAVERA DO LESTE,5
+    REDENCAO,6
+	PARAGOMINAS,7  
+];

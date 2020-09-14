@@ -1,0 +1,182 @@
+[
+  {
+    "qInfo": {
+      "qId": "00f3076f-886d-4ac0-8c5b-07a4be271ee4",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "vDolar",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "=Sum({<MoedaCicloBarter = {\"USD\"}>}vCredBayer)",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "2c60b4d2-425b-4495-a3f9-8199e8e68808",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "vCalculoUSD",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "if(RowNo()=0,\r\n\tsum(aggr(((AVG(AGGR(SUM({<CodMoeda={'USD'}>}ValorMTM),UNIDADE)) - IF((($(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','USD','VENDA'))\n\t)) < 0, ($(vCompraVendaSacasValorTotalCTR('BARTER', 'USD', 'VENDA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'VENDA'))\n\t), ($(vCompraVendaSacasValorTotalCTR('BARTER', 'USD', 'COMPRA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'COMPRA'))))) * (($(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','USD','VENDA'))\n\t))) /1000,REGIONAL)),\n    ''\n)",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "335f14cc-eff3-4b6f-b8b7-23ec3dffc756",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "vCiclo",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "=if(CICLO = 'SAFRA 2020/2021', 'Safra 20.21',\r\n\tif(CICLO = 'SAFRINHA 2020', 'Safrinha 20',\n    \tif(CICLO = 'SAFRINHA 2021', 'Safrinha 21',\n        \tif(CICLO = 'SAFRA 2021/2022', 'Safra 21.22'\n\t\n))))",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "3f9595bd-1dea-4236-920a-98087c21b115",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "vCompraVendaSacasValorFixadoSC",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "Sum({<TipoContrato={$1},CodMoeda={$2},CompraOuVenda={$3}>} [VOLUME FIXADO SC])",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "4985f35e-2f1c-491b-af7b-b34e3bedc995",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "vCaculoRealizadaMargemBRL",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "(\r\n\tif(\n    \t($(vCompraVendaSacasValorFixadoSC('BARTER','BRL','COMPRA')) - $(vCompraVendaSacasValorFixadoSC('BARTER','BRL','VENDA'))) <0, // coluna(3)\n\t\t$(vCompraVendaSacasValorFixadoSC('BARTER','BRL','COMPRA')), // coluna(1)\t\t\n        $(vCompraVendaSacasValorFixadoSC('BARTER','BRL','VENDA'))  // coluna(2)\n    \t)\n\t* \n    \t(\n    \t\t($(vCompraVendaSacasValorTotalCTR('BARTER', 'BRL', 'VENDA')) / $(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'VENDA'))) //coluna(5)\n            -\n            ($(vCompraVendaSacasValorTotalCTR('BARTER', 'BRL', 'COMPRA')) / $(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))) // coluna(4)\n\t\t) // coluna(6)\n) / 1000",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "5e52201d-5040-4f8a-8be8-29768d39430d",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "vCalculoMargemRealizadaUSD",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "(\r\n\tif(\n    \t($(vCompraVendaSacasValorFixadoSC('BARTER','USD','COMPRA')) - $(vCompraVendaSacasValorFixadoSC('BARTER','USD','VENDA'))) <0, // coluna(3)\n\t\t$(vCompraVendaSacasValorFixadoSC('BARTER','USD','COMPRA')), // coluna(1)\t\t\n        $(vCompraVendaSacasValorFixadoSC('BARTER','USD','VENDA'))  // coluna(2)\n    \t)\n\t* \n    \t(\n    \t\t($(vCompraVendaSacasValorTotalCTR('BARTER', 'USD', 'VENDA')) / $(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'VENDA'))) //coluna(5)\n            -\n            ($(vCompraVendaSacasValorTotalCTR('BARTER', 'USD', 'COMPRA')) / $(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'COMPRA'))) // coluna(4)\n\t\t) // coluna(6)\n) / 1000",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "80854a36-ee8b-4854-8946-92b6583b22a4",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "vReal",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "=Sum({<MoedaCicloBarter = {\"BRL\"}>}vCredBayer)",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "8a894d9e-6dec-4482-a5a4-56656f101c53",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "vCalculoMTMUSDMi",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "sum(aggr(((AVG(AGGR(SUM({<CodMoeda={'USD'}>}ValorMTM),UNIDADE)) - IF((($(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','USD','VENDA'))\r\n)) < 0, ($(vCompraVendaSacasValorTotalCTR('BARTER', 'USD', 'VENDA'))\n/\n$(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'VENDA'))\n), ($(vCompraVendaSacasValorTotalCTR('BARTER', 'USD', 'COMPRA'))\n/\n$(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'COMPRA'))))) * (($(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','USD','VENDA'))\n))) /1000,REGIONAL))",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "ae048d89-2b9c-4a3f-9577-9b334909eafd",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "vCompraVendaSacasValorTotalCTR",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "SUM({<TipoContrato={$1},CodMoeda={$2},CompraOuVenda={$3}>} [VLR TOTAL CTR])",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "d6a1c52a-241f-4034-8685-f8a71fda8385",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "vCalculoMTMRSMil",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "sum(aggr(((AVG(AGGR(SUM({<CodMoeda={'BRL'}>}ValorMTM),UNIDADE)) - IF((($(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','BRL','VENDA'))\r\n)) < 0, ($(vCompraVendaSacasValorTotalCTR('BARTER', 'BRL', 'VENDA'))\n/\n$(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'VENDA'))\n), ($(vCompraVendaSacasValorTotalCTR('BARTER', 'BRL', 'COMPRA'))\n/\n$(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))))) * (($(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','BRL','VENDA'))\n))) /1000,REGIONAL))\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "f4635f11-149c-4814-ba84-d85cfdce3510",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "vCalculoUSDConsolidado",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "IF(RowNo()=0,\r\n\tsum(AGGR(((AVG(AGGR(SUM({<CodMoeda={'BRL'}>}ValorMTM),UNIDADE)) - IF((($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'COMPRA'))))-(($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'VENDA')))) < 0, (\t($(vCompraVendaSacasValorTotalCTR(\"*\", 'BRL', 'VENDA')) + ($(vCompraVendaSacasValorTotalCTR(\"*\", 'USD', 'VENDA')) * vPtax))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC(\"*\", \"*\", 'VENDA'))), (\t($(vCompraVendaSacasValorTotalCTR(\"*\", 'BRL', 'COMPRA')) + ($(vCompraVendaSacasValorTotalCTR(\"*\", 'USD', 'COMPRA')) * vPtax))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC(\"*\", \"*\", 'COMPRA'))))) * ((($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'COMPRA'))))-(($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'VENDA')))))) /1000,REGIONAL)),\n    ''\n)",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "fa86b0de-adfd-4335-b36d-f6e60b156f41",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "vCalculoBRL",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "if(RowNo()=0,\r\n\tsum(aggr(((AVG(AGGR(SUM({<CodMoeda={'BRL'}>}ValorMTM),UNIDADE)) - IF((($(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','BRL','VENDA'))\n\t)) < 0, ($(vCompraVendaSacasValorTotalCTR('BARTER', 'BRL', 'VENDA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'VENDA'))\n\t), ($(vCompraVendaSacasValorTotalCTR('BARTER', 'BRL', 'COMPRA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))))) * (($(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','BRL','VENDA'))\n\t))) /1000,REGIONAL)),\n    ''\n)",
+    "tags": []
+  }
+]

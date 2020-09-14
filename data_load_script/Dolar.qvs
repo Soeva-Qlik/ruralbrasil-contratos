@@ -1,0 +1,15 @@
+///$tab Dolar
+TabCotacao:
+LOAD
+	date(MAX(DATA_VLR))	AS	vPtaData,
+    FirstSortedValue(DISTINCT VCOT_NEG,-DATA_VLR)	as	vCotacao
+FROM 
+	[lib://0.Extract/Siagri/NEGOCIACAO.qvd](qvd)
+where
+	NOT ISNULL(VCOT_NEG) AND NOT ISNULL(DATA_VLR);
+    
+LET vPtax = peek('vCotacao');
+LET vPtaxData = peek('vPtaData');
+
+
+DROP TABLE TabCotacao;

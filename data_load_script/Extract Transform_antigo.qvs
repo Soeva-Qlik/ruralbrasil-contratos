@@ -1,0 +1,542 @@
+///$tab Extract Transform_antigo
+LIB CONNECT TO 'Siagri';
+
+VW_CONTRATOS_V3_TABLEAU:
+SQL
+SELECT DISTINCT
+  CTR.CODI_EMP AS CODIGO,
+CASE 
+  WHEN CTR.CODI_EMP IN (4, 14, 5,6, 9, 32) THEN
+    'JATAI'
+  WHEN CTR.CODI_EMP IN (15,16, 41,35,43,47) THEN
+    'RIO VERDE'
+  WHEN CTR.CODI_EMP IN (30, 31,45) THEN
+    'PRIMAVERA DO LESTE'
+  WHEN CTR.CODI_EMP IN (20,21, 12,22,13, 23) THEN
+    'QUERENCIA'
+  WHEN CTR.CODI_EMP IN (25,26,24, 27, 28,29) THEN
+    'CANARANA'
+    WHEN CTR.CODI_EMP IN (42,40,34,11,44) THEN
+    'REDENCAO'
+      WHEN CTR.CODI_EMP IN (33,37,39,38) THEN
+    'PARAGOMINAS'
+  ELSE
+    'NAO DEFINIDA'
+END AS REGIONAL,
+CE.IDEN_EMP UNIDADE,
+PE1.NOME_PES VENDEDOR,
+CTR.CODI_CIC "COD. CICLO",
+CP.DESC_CIC CICLO,
+PS.DESC_PSV COMODITIE,
+TC.DESC_TIC "TIPO CONTRATO",
+CASE 
+  WHEN TC.CODI_TIC IN (121, 109, 136, 130, 126, 110, 138, 131, 112, 111, 137, 125,
+                       120, 119, 118, 115, 116, 113, 142, 141, 132, 103, 139, 140, 
+                       133, 104, 127, 129, 128, 123, 123, 107, 108, 124, 106) THEN
+    TC.DESC_TIC
+  WHEN TC.CODI_TIC = 3 THEN
+    'ORIGINACAO COMPRA FIXO'
+  WHEN TC.CODI_TIC = 22 THEN
+    'ORIGINACAO COMPRA A FIXAR'
+  WHEN TC.CODI_TIC = 4 THEN
+    'ORIGINACAO VENDA FIXO'
+  WHEN TC.CODI_TIC = 5 THEN
+    'ORIGINACAO VENDA A FIXAR'
+  WHEN TC.CODI_TIC = 6 THEN
+    'TROCA INSUMOS VENDA FIXO'
+  WHEN TC.CODI_TIC = 7 THEN
+    'TROCA RENEGOCIACAO COMPRA'
+  WHEN TC.CODI_TIC = 8 THEN
+    'TROCA RENEGOCIACAO VENDA'
+  WHEN TC.CODI_TIC = 27 THEN
+    'TROCA COMPRA JURIDICO'
+  WHEN TC.CODI_TIC = 28 THEN
+    'TROCA VENDA JURIDICO'
+  WHEN TC.CODI_TIC = 29 THEN
+    'TROCA CTR CESSAO DE CREDITO'    
+  WHEN TC.CODI_TIC IN (15, 16, 25, 26) THEN
+    'N/A'
+  ELSE  
+    CASE
+      WHEN SUBSTR(TC.DESC_TIC,0,4) = 'ARMZ' THEN
+        'ARMZ '
+      ELSE
+        'TROCA '
+    END ||
+    CASE
+      WHEN TC.TIPO_TIC = 'S' THEN 'VENDA'
+      WHEN TC.TIPO_TIC = 'E' THEN 'COMPRA'
+      ELSE
+        ''
+    END || ' ' ||
+    CASE
+      WHEN TC.MODA_TIC = 1 THEN 'A FIXAR'
+      WHEN TC.MODA_TIC = 2 THEN 'FIXO'
+      WHEN TC.MODA_TIC = 3 THEN 'DEPOSITO'
+      WHEN TC.MODA_TIC = 4 THEN 'COOPERATIVA'
+      WHEN TC.MODA_TIC = 5 THEN 'PARA FINS DE EXPORTAÇÃO'
+      WHEN TC.MODA_TIC = 6 THEN 'EXPORTAÇÃO DIRETA'
+      WHEN TC.MODA_TIC = 7 THEN 'FIXO'
+      WHEN TC.MODA_TIC = 8 THEN 'FIXO'
+      WHEN TC.MODA_TIC = 9 THEN 'TEMPORARIO'
+      WHEN TC.MODA_TIC = 10 THEN 'MOVIMENTO FUTURO'
+      WHEN TC.MODA_TIC = 11 THEN 'TRANSBORDO'
+      WHEN TC.MODA_TIC = 12 THEN 'TRANSPORTE'
+      WHEN TC.MODA_TIC = 13 THEN 'FIXO'
+      WHEN TC.MODA_TIC = 14 THEN 'AGROINDUSTRIA'
+      WHEN TC.MODA_TIC = 15 THEN 'TROCAS VALOR A FIXAR'
+    ELSE
+    ''
+    END
+END "TIPO CONTRATO PADRAO",
+
+COALESCE(IND.DESC_IND, 'REAIS') MOEDA,
+CTR.CONO_CCP "Nº ORIGINAL",
+CTR.SERI_CCP "SERIE ORIGINAL",
+CTR.NUME_CCP "Nº CTR",
+DECODE(CTR.SITU_CCP, '9', '9 - CANCELADO', '4', '4 - LIBERADO', '5', '5 - FECHADO', '1', '1 - PENDENTE', CTR.SITU_CCP) STATUS,
+TO_DATE(TO_CHAR(CTR.DATA_CCP, 'DD/MM/YYYY'), 'DD/MM/YYYY') "DT NEGOCIO",
+(
+	SELECT
+		CAST(TO_DATE(TO_CHAR(PCT.VENC_COP, 'DD/MM/YYYY'), 'DD/MM/YYYY') AS DATE)
+	FROM RURALB.CTRCOMPRAPAR PCT 
+	WHERE PCT.NUME_CCP = CTR.NUME_CCP 
+	AND ROWNUM = 1
+) "DT VENCTO/PARCELAS",
+(
+	SELECT
+		TO_DATE(TO_CHAR(DTFE_CDA, 'DD/MM/YYYY'),'DD/MM/YYYY')
+	FROM RURALB.CTRCOMPRADEP DCT 
+	WHERE DCT.NUME_CCP = CTR.NUME_CCP 
+	AND ROWNUM = 1
+) "PRAZO DE ENTREGA",
+(
+	SELECT 
+		COALESCE(TD.RAZA_TRA, DP.DESC_DPT) RESULTADO 
+	FROM RURALB.CTRCOMPRADEP DCT 
+	INNER JOIN RURALB.DEPOSITO DP ON (DCT.CODI_DPT = DP.CODI_DPT) 
+	LEFT JOIN RURALB.TRANSAC TD ON (DP.CODI_TRA = TD.CODI_TRA) 
+	WHERE DCT.NUME_CCP = CTR.NUME_CCP 
+	AND ROWNUM = 1
+) "LOCAL DE ENTREGA",
+(
+	SELECT 
+		CASE 
+			WHEN MTD.CODI_MUN IS NULL THEN DP.DESC_DPT 
+			ELSE MTD.DESC_MUN|| '/' ||MTD.ESTA_MUN 
+		END RESULTADO 
+	FROM RURALB.CTRCOMPRADEP DCT  
+	INNER JOIN RURALB.DEPOSITO DP ON (DCT.CODI_DPT = DP.CODI_DPT) 
+	LEFT JOIN RURALB.TRANSAC TD ON (DP.CODI_TRA = TD.CODI_TRA) 
+	LEFT JOIN RURALB.MUNICIPIO MTD ON (TD.CODI_MUN = MTD.CODI_MUN) 
+	WHERE DCT.NUME_CCP = CTR.NUME_CCP 
+	AND ROWNUM = 1
+) "MUNICIPIO/UF",
+
+COALESCE(CTR.VDEA_CCP, 0) "DESPESA ARMAZENAGEM",
+CTR.PEAG_CCP "COMISSAO %",
+T2.RAZA_TRA "AGENCIADOR",
+CASE 
+	
+  WHEN CTR.CODI_IND > 0 THEN COALESCE(CTR.CFAT_CCP, 0)
+	ELSE 0 
+END COTACAO,
+
+CTR.VFRE_CCP "VLR FRETE",
+
+PRP.DESC_PRP "PROGRAMA DE PARIDADE",
+CTR.CODI_TRA "COD. PARCEIRO",
+T.RAZA_TRA "NOME COMPRADOR/VENDEDOR",
+ROUND(CTR.QTUN_CCP,4) "VOLUME SC",
+ROUND((CTR.QTUN_CCP*60),4) "VOLUME KG",
+
+CASE
+  WHEN CTR.NUME_CCP IN (2952, 2188) THEN ROUND(CTR.QTUN_CCP, 4)
+  WHEN TC.MODA_TIC = 1 THEN COALESCE((SELECT ROUND(SLD.QTDE_FIX / 60, 4) FROM RURALB.VSALDO_CONTRATO_QLIK SLD WHERE SLD.NUME_CCP = CTR.NUME_CCP), 0) 
+  ELSE
+    CTR.QTUN_CCP
+END  "VOLUME FIXADO SC",
+
+ROUND(CASE 
+  WHEN (TC.MODA_TIC = '1' AND TC.TIPO_TIC = 'S') THEN COALESCE((COALESCE((SELECT SUM(FC.VLOR_FXC) FROM RURALB.FIXACTRC FC WHERE FC.NUME_CCP = CTR.NUME_CCP AND COALESCE(FC.SITU_FXC,'N') = 'N'), 0) / COALESCE((SELECT DECODE(SUM(SLD.QTDE_FIX), 0, 1, SUM(SLD.QTDE_FIX)) FROM RURALB.VSALDO_CONTRATO_QLIK SLD WHERE SLD.NUME_CCP = CTR.NUME_CCP), 1)), 0) * 60
+  WHEN (TC.MODA_TIC = '1' AND TC.TIPO_TIC = 'E' AND (CTR.VLOR_CCP = 0 OR CTR.VLOR_CCP IS NULL)) THEN (COALESCE((SELECT SUM(FC.VLOR_FXC) FROM RURALB.FIXACTRC FC WHERE FC.NUME_CCP = CTR.NUME_CCP AND COALESCE(FC.SITU_FXC,'N') = 'N'), 0) / COALESCE((SELECT DECODE(SUM(SLD.QTDE_FIX), 0, 1, SUM(SLD.QTDE_FIX)) FROM RURALB.VSALDO_CONTRATO_QLIK SLD WHERE SLD.NUME_CCP = CTR.NUME_CCP), 1)) * 60
+  ELSE COALESCE(CTR.VLOR_CCP, 0)
+END, 4) "PR.UNT.SC BRUTO",
+
+CASE
+  WHEN (TC.MODA_TIC = '1' AND TC.TIPO_TIC = 'S') THEN COALESCE((SELECT SUM(FC.VLOR_FXC) FROM RURALB.FIXACTRC FC WHERE FC.NUME_CCP = CTR.NUME_CCP AND COALESCE(FC.SITU_FXC,'N') = 'N'), 0)
+  WHEN (TC.MODA_TIC = '1' AND TC.TIPO_TIC = 'E' AND (CTR.TOTA_CCP = 0 OR CTR.TOTA_CCP IS NULL)) THEN COALESCE((SELECT SUM(FC.VLOR_FXC) FROM RURALB.FIXACTRC FC WHERE FC.NUME_CCP = CTR.NUME_CCP AND COALESCE(FC.SITU_FXC,'N') = 'N'), 0)
+  ELSE CTR.TOTA_CCP
+END "VLR TOTAL CTR",
+
+ROUND(CASE 
+  WHEN (TC.MODA_TIC = '1' AND TC.TIPO_TIC = 'S') THEN COALESCE((COALESCE((SELECT SUM(FC.VLOR_FXC) FROM RURALB.FIXACTRC FC WHERE FC.NUME_CCP = CTR.NUME_CCP AND COALESCE(FC.SITU_FXC,'N') = 'N'), 0) / COALESCE((SELECT DECODE(SUM(SLD.QTDE_FIX), 0, 1, SUM(SLD.QTDE_FIX)) FROM RURALB.VSALDO_CONTRATO_QLIK SLD WHERE SLD.NUME_CCP = CTR.NUME_CCP), 1)), 0) * 60
+  WHEN (TC.MODA_TIC = '1' AND TC.TIPO_TIC = 'E' AND (CTR.VLOR_CCP = 0 OR CTR.VLOR_CCP IS NULL)) THEN (COALESCE((SELECT SUM(FC.VLOR_FXC) FROM RURALB.FIXACTRC FC WHERE FC.NUME_CCP = CTR.NUME_CCP AND COALESCE(FC.SITU_FXC,'N') = 'N'), 0) / COALESCE((SELECT DECODE(SUM(SLD.QTDE_FIX), 0, 1, SUM(SLD.QTDE_FIX)) FROM RURALB.VSALDO_CONTRATO_QLIK SLD WHERE SLD.NUME_CCP = CTR.NUME_CCP), 1)) * 60
+  ELSE COALESCE(CTR.VLIP_CCP, 0)
+END, 4) "PR.UNT.SC LIQ",
+
+  CASE
+    WHEN TC.MODA_TIC <> 1 THEN 0
+    ELSE
+    ROUND(
+      CASE 
+        WHEN CTR.NUME_CCP IN (2952, 2188) THEN 0
+        WHEN (TC.MODA_TIC = '1' AND (CTR.QTDE_CCP = 0 OR CTR.QTDE_CCP IS NULL) AND TC.TIPO_TIC = 'E') THEN COALESCE((SELECT (SLD.QTDE_ROE / 60) QTDE_CCP FROM RURALB.VSALDO_CONTRATO_QLIK SLD WHERE SLD.NUME_CCP = CTR.NUME_CCP), 0)
+        WHEN (TC.MODA_TIC = '1' AND (CTR.QTDE_CCP = 0 OR CTR.QTDE_CCP IS NULL) AND TC.TIPO_TIC = 'S') THEN COALESCE((SELECT (SLD.QTDE_ROS / 60) QTDE_CCP FROM RURALB.VSALDO_CONTRATO_QLIK SLD WHERE SLD.NUME_CCP = CTR.NUME_CCP), 0)
+        ELSE (CTR.QTDE_CCP / 60)
+      END - 
+      CASE 
+        WHEN CTR.NUME_CCP IN (2952, 2188) THEN 0
+        ELSE
+        COALESCE((SELECT SLD.QTDE_FIX / 60 FROM RURALB.VSALDO_CONTRATO_QLIK SLD WHERE SLD.NUME_CCP = CTR.NUME_CCP), 0)
+      END, 4)
+  END "VOLUME A FIXAR",
+
+(COALESCE(CTR.IFET_CCP, 0) + COALESCE(CTR.IFAC_CCP, 0)) "FETHAB/FACS CTR",
+CASE 
+  WHEN TC.TIPO_TIC = 'E' AND TC.OGNF_TIC = 'C' THEN COALESCE((
+                                                        SELECT 
+                                                          (SUM(FETHAB) + SUM(FACS)) FET_FAC
+                                                        FROM(
+                                                              SELECT 
+                                                                COALESCE(INE.VLFE_INO, 0) FETHAB, 
+                                                                COALESCE(INE.VLFA_INO, 0) FACS, 
+                                                                NOR.CODI_EMP, 
+                                                                NE.NOTA_NOT, 
+                                                                NE.SERI_NOT, 
+                                                                INE.CODI_PSV,
+                                                                NOR.QTDE_NFR,
+                                                                COALESCE(INE.QDEV_INO,0) QDEV_INO,
+                                                                NOR.NOTO_NFR DOC,
+                                                                NOR.SERO_NFR TIPO
+                                                              FROM RURALB.NOTAORIG NOR
+                                                              INNER JOIN RURALB.INOTA INE ON (INE.NPRE_NOT = NOR.NOTD_NFR AND INE.ITEM_INO = NOR.ITED_NFR)
+                                                              INNER JOIN RURALB.NOTA NE ON (NE.NPRE_NOT = INE.NPRE_NOT)
+                                                              WHERE NE.SITU_NOT <> '9'
+                                                                AND NOR.TIPD_NFR = 'NE'
+
+                                                              UNION ALL
+
+                                                              SELECT 
+                                                                COALESCE(INT.VLFE_INF, 0) FETHAB, 
+                                                                COALESCE(INT.VLFA_INF, 0) FACS, 
+                                                                NOR.CODI_EMP, 
+                                                                NT.NUME_NFE, 
+                                                                NT.SERI_NFE, 
+                                                                INT.CODI_PSV,
+                                                                NOR.QTDE_NFR, 
+                                                                COALESCE(INT.QDEV_INF,0) QDEV_INF,
+                                                                NOR.NOTO_NFR DOC,
+                                                                NOR.SERO_NFR TIPO
+                                                              FROM RURALB.NOTAORIG NOR
+                                                              INNER JOIN RURALB.NFENTRA NT ON (NT.CODI_EMP = NOR.CODI_EMP AND NT.NUME_NFE = NOR.NOTD_NFR AND NT.SERI_NFE = NOR.SERD_NFR AND NT.CODI_TRA = NOR.TRAD_NFR AND NT.CTRL_NFE = NOR.CTRD_NFR)
+                                                              INNER JOIN RURALB.INFENTRA INT ON (INT.CODI_EMP = NT.CODI_EMP AND INT.CODI_TRA = NT.CODI_TRA AND INT.NUME_NFE = NT.NUME_NFE AND INT.SERI_NFE = NT.SERI_NFE AND INT.CTRL_NFE = NT.CTRL_NFE AND INT.ITEM_INF = NOR.ITED_NFR)
+                                                              WHERE NOR.TIPD_NFR = 'NT'
+                                                        ) RS WHERE RS.DOC = CTR.NUME_CCP AND RS.TIPO = 'CC'), 0)
+  WHEN  TC.TIPO_TIC = 'S' AND TC.OGNF_TIC = 'C' THEN COALESCE((
+                                                       SELECT 
+                                                          (SUM(FETHAB) + SUM(FACS)) FET_FAC
+                                                        FROM(
+                                                              SELECT 
+                                                                COALESCE(INE.VLFE_INO, 0) FETHAB, 
+                                                                COALESCE(INE.VLFA_INO, 0) FACS, 
+                                                                NOR.CODI_EMP, 
+                                                                NE.NOTA_NOT, 
+                                                                NE.SERI_NOT, 
+                                                                INE.CODI_PSV,
+                                                                NOR.QTDE_NFR,
+                                                                COALESCE(INE.QDEV_INO,0) QDEV_INO,
+                                                                NOR.NOTO_NFR DOC,
+                                                                NOR.SERO_NFR TIPO
+                                                              FROM RURALB.NOTAORIG NOR
+                                                              INNER JOIN RURALB.INOTA INE ON (INE.NPRE_NOT = NOR.NOTD_NFR AND INE.ITEM_INO = NOR.ITED_NFR)
+                                                              INNER JOIN RURALB.NOTA NE ON (NE.NPRE_NOT = INE.NPRE_NOT)
+                                                              WHERE NE.SITU_NOT <> '9'
+                                                                AND NOR.TIPD_NFR = 'NE'
+
+                                                              UNION ALL
+
+                                                              SELECT 
+                                                                COALESCE(INT.VLFE_INF, 0) FETHAB, 
+                                                                COALESCE(INT.VLFA_INF, 0) FACS, 
+                                                                NOR.CODI_EMP, 
+                                                                NT.NUME_NFE, 
+                                                                NT.SERI_NFE, 
+                                                                INT.CODI_PSV,
+                                                                NOR.QTDE_NFR, 
+                                                                COALESCE(INT.QDEV_INF,0) QDEV_INF,
+                                                                NOR.NOTO_NFR DOC,
+                                                                NOR.SERO_NFR TIPO
+                                                              FROM RURALB.NOTAORIG NOR
+                                                              INNER JOIN RURALB.NFENTRA NT ON (NT.CODI_EMP = NOR.CODI_EMP AND NT.NUME_NFE = NOR.NOTD_NFR AND NT.SERI_NFE = NOR.SERD_NFR AND NT.CODI_TRA = NOR.TRAD_NFR AND NT.CTRL_NFE = NOR.CTRD_NFR)
+                                                              INNER JOIN RURALB.INFENTRA INT ON (INT.CODI_EMP = NT.CODI_EMP AND INT.CODI_TRA = NT.CODI_TRA AND INT.NUME_NFE = NT.NUME_NFE AND INT.SERI_NFE = NT.SERI_NFE AND INT.CTRL_NFE = NT.CTRL_NFE AND INT.ITEM_INF = NOR.ITED_NFR)
+                                                              WHERE NOR.TIPD_NFR = 'NT'
+                                                        ) RS WHERE RS.DOC = CTR.NUME_CCP AND RS.TIPO = 'CV'), 0) 
+  ELSE COALESCE((
+                                                        SELECT 
+                                                          (SUM(FETHAB) + SUM(FACS)) FET_FAC
+                                                        FROM(
+                                                              SELECT 
+                                                                COALESCE(INE.VLFE_INO, 0) FETHAB, 
+                                                                COALESCE(INE.VLFA_INO, 0) FACS, 
+                                                                NOR.CODI_EMP, 
+                                                                NE.NOTA_NOT, 
+                                                                NE.SERI_NOT, 
+                                                                INE.CODI_PSV,
+                                                                NOR.QTDE_NFR,
+                                                                COALESCE(INE.QDEV_INO,0) QDEV_INO,
+                                                                MC.NUME_CCP DOC,
+                                                                NOR.SERO_NFR TIPO
+                                                              FROM RURALB.NOTAORIG NOR
+                                                              INNER JOIN RURALB.INOTA INE ON (INE.NPRE_NOT = NOR.NOTD_NFR AND INE.ITEM_INO = NOR.ITED_NFR)
+                                                              INNER JOIN RURALB.NOTA NE ON (NE.NPRE_NOT = INE.NPRE_NOT)
+                                                              INNER JOIN RURALB.MOVCONTRATO MC ON (MC.NURT_MCO = NOR.NOTO_NFR AND MC.TIPO_MCO = 'R')
+                                                              WHERE NE.SITU_NOT <> '9'
+                                                                AND NOR.TIPD_NFR = 'NE'
+
+                                                              UNION ALL
+
+                                                              SELECT 
+                                                                COALESCE(INT.VLFE_INF, 0) FETHAB, 
+                                                                COALESCE(INT.VLFA_INF, 0) FACS, 
+                                                                NOR.CODI_EMP, 
+                                                                NT.NUME_NFE, 
+                                                                NT.SERI_NFE, 
+                                                                INT.CODI_PSV,
+                                                                NOR.QTDE_NFR, 
+                                                                COALESCE(INT.QDEV_INF,0) QDEV_INF,
+                                                                MC.NUME_CCP DOC,
+                                                                NOR.SERO_NFR TIPO
+                                                              FROM RURALB.NOTAORIG NOR
+                                                              INNER JOIN RURALB.NFENTRA NT ON (NT.CODI_EMP = NOR.CODI_EMP AND NT.NUME_NFE = NOR.NOTD_NFR AND NT.SERI_NFE = NOR.SERD_NFR AND NT.CODI_TRA = NOR.TRAD_NFR AND NT.CTRL_NFE = NOR.CTRD_NFR)
+                                                              INNER JOIN RURALB.INFENTRA INT ON (INT.CODI_EMP = NT.CODI_EMP AND INT.CODI_TRA = NT.CODI_TRA AND INT.NUME_NFE = NT.NUME_NFE AND INT.SERI_NFE = NT.SERI_NFE AND INT.CTRL_NFE = NT.CTRL_NFE AND INT.ITEM_INF = NOR.ITED_NFR)
+                                                              INNER JOIN RURALB.MOVCONTRATO MC ON (MC.NURT_MCO = NOR.NOTO_NFR AND MC.TIPO_MCO = 'R')
+                                                              WHERE NOR.TIPD_NFR = 'NT'
+                                                        ) RS WHERE RS.DOC = CTR.NUME_CCP AND RS.TIPO = 'RO'), 0) 
+END "FETHAB/FACS NF",
+CASE 
+  WHEN (CTR.IFSN_CCP = 0 OR CTR.IFSN_CCP IS NULL) THEN (COALESCE(CTR.IFUN_CCP, 0) + COALESCE(CTR.ISEN_CCP, 0)) 
+  ELSE CTR.IFSN_CCP 
+END "FUNRURAL/FAT/SENAR CTR",
+CASE 
+  WHEN TC.TIPO_TIC = 'E' AND TC.OGNF_TIC = 'C' THEN COALESCE((
+                                                        SELECT 
+                                                          CASE 
+                                                            WHEN SUM(FUNRURAL_SENAR) = 0 THEN SUM(FUNRURAL) + SUM(SENAR)
+                                                            ELSE SUM(FUNRURAL_SENAR)
+                                                          END FUN_SEN
+                                                        FROM(
+                                                              SELECT 
+                                                                COALESCE(INE.VLFR_INO, 0) FUNRURAL_SENAR, 
+                                                                COALESCE(INE.VLFU_INO, 0) FUNRURAL, 
+                                                                COALESCE(INE.VLSE_INO, 0) SENAR, 
+                                                                NOR.CODI_EMP, 
+                                                                NE.NOTA_NOT, 
+                                                                NE.SERI_NOT, 
+                                                                INE.CODI_PSV,
+                                                                NOR.QTDE_NFR,
+                                                                COALESCE(INE.QDEV_INO,0) QDEV_INO,
+                                                                NOR.NOTO_NFR DOC,
+                                                                NOR.SERO_NFR TIPO
+                                                              FROM RURALB.NOTAORIG NOR
+                                                              INNER JOIN RURALB.INOTA INE ON (INE.NPRE_NOT = NOR.NOTD_NFR AND INE.ITEM_INO = NOR.ITED_NFR)
+                                                              INNER JOIN RURALB.NOTA NE ON (NE.NPRE_NOT = INE.NPRE_NOT)
+                                                              WHERE NE.SITU_NOT <> '9'
+                                                                AND NOR.TIPD_NFR = 'NE'
+
+                                                              UNION ALL
+
+                                                              SELECT 
+                                                                COALESCE(INT.VLFR_INF, 0) FUNRURAL_SENAR, 
+                                                                COALESCE(INT.VLFU_INF, 0) FUNRURAL, 
+                                                                COALESCE(INT.VLSE_INF, 0) SENAR, 
+                                                                NOR.CODI_EMP, 
+                                                                NT.NUME_NFE, 
+                                                                NT.SERI_NFE, 
+                                                                INT.CODI_PSV,
+                                                                NOR.QTDE_NFR, 
+                                                                COALESCE(INT.QDEV_INF,0) QDEV_INF,
+                                                                NOR.NOTO_NFR DOC,
+                                                                NOR.SERO_NFR TIPO
+                                                              FROM RURALB.NOTAORIG NOR
+                                                              INNER JOIN RURALB.NFENTRA NT ON (NT.CODI_EMP = NOR.CODI_EMP AND NT.NUME_NFE = NOR.NOTD_NFR AND NT.SERI_NFE = NOR.SERD_NFR AND NT.CODI_TRA = NOR.TRAD_NFR AND NT.CTRL_NFE = NOR.CTRD_NFR)
+                                                              INNER JOIN RURALB.INFENTRA INT ON (INT.CODI_EMP = NT.CODI_EMP AND INT.CODI_TRA = NT.CODI_TRA AND INT.NUME_NFE = NT.NUME_NFE AND INT.SERI_NFE = NT.SERI_NFE AND INT.CTRL_NFE = NT.CTRL_NFE AND INT.ITEM_INF = NOR.ITED_NFR)
+                                                              WHERE NOR.TIPD_NFR = 'NT'
+                                                        ) RS WHERE RS.DOC = CTR.NUME_CCP AND RS.TIPO = 'CC'), 0)
+  WHEN  TC.TIPO_TIC = 'S' AND TC.OGNF_TIC = 'C' THEN COALESCE((
+                                                        SELECT 
+                                                          CASE 
+                                                            WHEN SUM(FUNRURAL_SENAR) = 0 THEN SUM(FUNRURAL) + SUM(SENAR)
+                                                            ELSE SUM(FUNRURAL_SENAR)
+                                                          END FUN_SEN
+                                                        FROM(
+                                                              SELECT 
+                                                                COALESCE(INE.VLFR_INO, 0) FUNRURAL_SENAR, 
+                                                                COALESCE(INE.VLFU_INO, 0) FUNRURAL, 
+                                                                COALESCE(INE.VLSE_INO, 0) SENAR, 
+                                                                NOR.CODI_EMP, 
+                                                                NE.NOTA_NOT, 
+                                                                NE.SERI_NOT, 
+                                                                INE.CODI_PSV,
+                                                                NOR.QTDE_NFR,
+                                                                COALESCE(INE.QDEV_INO,0) QDEV_INO,
+                                                                NOR.NOTO_NFR DOC,
+                                                                NOR.SERO_NFR TIPO
+                                                              FROM RURALB.NOTAORIG NOR
+                                                              INNER JOIN RURALB.INOTA INE ON (INE.NPRE_NOT = NOR.NOTD_NFR AND INE.ITEM_INO = NOR.ITED_NFR)
+                                                              INNER JOIN RURALB.NOTA NE ON (NE.NPRE_NOT = INE.NPRE_NOT)
+                                                              WHERE NE.SITU_NOT <> '9'
+                                                                AND NOR.TIPD_NFR = 'NE'
+
+                                                              UNION ALL
+
+                                                              SELECT 
+                                                                COALESCE(INT.VLFR_INF, 0) FUNRURAL_SENAR, 
+                                                                COALESCE(INT.VLFU_INF, 0) FUNRURAL, 
+                                                                COALESCE(INT.VLSE_INF, 0) SENAR, 
+                                                                NOR.CODI_EMP, 
+                                                                NT.NUME_NFE, 
+                                                                NT.SERI_NFE, 
+                                                                INT.CODI_PSV,
+                                                                NOR.QTDE_NFR, 
+                                                                COALESCE(INT.QDEV_INF,0) QDEV_INF,
+                                                                NOR.NOTO_NFR DOC,
+                                                                NOR.SERO_NFR TIPO
+                                                              FROM RURALB.NOTAORIG NOR
+                                                              INNER JOIN RURALB.NFENTRA NT ON (NT.CODI_EMP = NOR.CODI_EMP AND NT.NUME_NFE = NOR.NOTD_NFR AND NT.SERI_NFE = NOR.SERD_NFR AND NT.CODI_TRA = NOR.TRAD_NFR AND NT.CTRL_NFE = NOR.CTRD_NFR)
+                                                              INNER JOIN RURALB.INFENTRA INT ON (INT.CODI_EMP = NT.CODI_EMP AND INT.CODI_TRA = NT.CODI_TRA AND INT.NUME_NFE = NT.NUME_NFE AND INT.SERI_NFE = NT.SERI_NFE AND INT.CTRL_NFE = NT.CTRL_NFE AND INT.ITEM_INF = NOR.ITED_NFR)
+                                                              WHERE NOR.TIPD_NFR = 'NT'
+                                                        ) RS WHERE RS.DOC = CTR.NUME_CCP AND RS.TIPO = 'CV'), 0) 
+  ELSE COALESCE((
+                                                        SELECT 
+                                                          CASE 
+                                                            WHEN SUM(FUNRURAL_SENAR) = 0 THEN SUM(FUNRURAL) + SUM(SENAR)
+                                                            ELSE SUM(FUNRURAL_SENAR)
+                                                          END FUN_SEN
+                                                        FROM(
+                                                              SELECT 
+                                                                COALESCE(INE.VLFR_INO, 0) FUNRURAL_SENAR, 
+                                                                COALESCE(INE.VLFU_INO, 0) FUNRURAL, 
+                                                                COALESCE(INE.VLSE_INO, 0) SENAR, 
+                                                                NOR.CODI_EMP, 
+                                                                NE.NOTA_NOT, 
+                                                                NE.SERI_NOT, 
+                                                                INE.CODI_PSV,
+                                                                NOR.QTDE_NFR,
+                                                                COALESCE(INE.QDEV_INO,0) QDEV_INO,
+                                                                MC.NUME_CCP DOC,
+                                                                NOR.SERO_NFR TIPO
+                                                              FROM RURALB.NOTAORIG NOR
+                                                              INNER JOIN RURALB.INOTA INE ON (INE.NPRE_NOT = NOR.NOTD_NFR AND INE.ITEM_INO = NOR.ITED_NFR)
+                                                              INNER JOIN RURALB.NOTA NE ON (NE.NPRE_NOT = INE.NPRE_NOT)
+                                                              INNER JOIN RURALB.MOVCONTRATO MC ON (MC.NURT_MCO = NOR.NOTO_NFR AND MC.TIPO_MCO = 'R')
+                                                              WHERE NE.SITU_NOT <> '9'
+                                                                AND NOR.TIPD_NFR = 'NE'
+
+                                                              UNION ALL
+
+                                                              SELECT 
+                                                                COALESCE(INT.VLFR_INF, 0) FUNRURAL_SENAR, 
+                                                                COALESCE(INT.VLFU_INF, 0) FUNRURAL, 
+                                                                COALESCE(INT.VLSE_INF, 0) SENAR, 
+                                                                NOR.CODI_EMP, 
+                                                                NT.NUME_NFE, 
+                                                                NT.SERI_NFE, 
+                                                                INT.CODI_PSV,
+                                                                NOR.QTDE_NFR, 
+                                                                COALESCE(INT.QDEV_INF,0) QDEV_INF,
+                                                                MC.NUME_CCP DOC,
+                                                                NOR.SERO_NFR TIPO
+                                                              FROM RURALB.NOTAORIG NOR
+                                                              INNER JOIN RURALB.NFENTRA NT ON (NT.CODI_EMP = NOR.CODI_EMP AND NT.NUME_NFE = NOR.NOTD_NFR AND NT.SERI_NFE = NOR.SERD_NFR AND NT.CODI_TRA = NOR.TRAD_NFR AND NT.CTRL_NFE = NOR.CTRD_NFR)
+                                                              INNER JOIN RURALB.INFENTRA INT ON (INT.CODI_EMP = NT.CODI_EMP AND INT.CODI_TRA = NT.CODI_TRA AND INT.NUME_NFE = NT.NUME_NFE AND INT.SERI_NFE = NT.SERI_NFE AND INT.CTRL_NFE = NT.CTRL_NFE AND INT.ITEM_INF = NOR.ITED_NFR)
+                                                              INNER JOIN RURALB.MOVCONTRATO MC ON (MC.NURT_MCO = NOR.NOTO_NFR AND MC.TIPO_MCO = 'R')
+                                                              WHERE NOR.TIPD_NFR = 'NT'
+                                                        ) RS WHERE RS.DOC = CTR.NUME_CCP AND RS.TIPO = 'RO'), 0) 
+END "FUNRURAL/FAT/SENAR NF",
+
+ROUND(CASE 
+  WHEN TC.TIPO_TIC = 'E' THEN COALESCE((SELECT SUM(SLD.QTDE_ROE) QTDE_CCP FROM RURALB.VSALDO_CONTRATO_QLIK SLD WHERE SLD.NUME_CCP = CTR.NUME_CCP), 0) - COALESCE((SELECT SUM(SLD.QTDE_ROS) QTDE_CCP FROM RURALB.VSALDO_CONTRATO_QLIK SLD WHERE SLD.NUME_CCP = CTR.NUME_CCP), 0)
+  WHEN TC.TIPO_TIC = 'S' THEN COALESCE((SELECT SUM(SLD.QTDE_ROS) QTDE_CCP FROM RURALB.VSALDO_CONTRATO_QLIK SLD WHERE SLD.NUME_CCP = CTR.NUME_CCP), 0) - COALESCE((SELECT SUM(SLD.QTDE_ROE) QTDE_CCP FROM RURALB.VSALDO_CONTRATO_QLIK SLD WHERE SLD.NUME_CCP = CTR.NUME_CCP), 0)
+  ELSE 0
+END, 4) "QTD ENTREGUE KG - ROM",
+ROUND((COALESCE((SELECT SUM(NCT.QTDE_NFR) QTDE_NFR FROM RURALB.NOTAS_CONTRATO_TROCAS NCT WHERE NCT.NUME_CCP = CTR.NUME_CCP), 0) - COALESCE((SELECT SUM(NCT.QDEV_NFR) QDEV_INO FROM RURALB.NOTAS_CONTRATO_TROCAS NCT WHERE NCT.NUME_CCP = CTR.NUME_CCP), 0)) + COALESCE((SELECT SUM(NCT.QTDE_ITEM) QTDE_NFR 
+FROM RURALB.NOTAS_CONTRATO NCT WHERE NCT.NUME_CCP = CTR.NUME_CCP), 0), 4) "QTD ENTREGUE KG - NFE",
+
+ROUND(COALESCE((SELECT SUM(QTDE_BCO) FROM RURALB.BAIXACTRC BCT WHERE BCT.NUME_CCP = CTR.NUME_CCP AND BCT.SITU_BCO = 'A' AND BCT.TIPO_BCO = 'W'), 0), 2) WASHOUT,
+
+ROUND(COALESCE((SELECT SUM(QTDE_SLD) FROM RURALB.VSALDO_CONTRATO_QLIK SLDC WHERE SLDC.NUME_CCP = CTR.NUME_CCP), 0), 2)/60 "SALDO SC",
+
+ROUND(COALESCE((SELECT SUM(QTDE_SLD) FROM RURALB.VSALDO_CONTRATO_QLIK SLDC WHERE SLDC.NUME_CCP = CTR.NUME_CCP), 0), 2) "SALDO KG",
+TO_DATE(TO_CHAR(CTR.DUMANUT, 'DD/MM/YYYY'), 'DD/MM/YYYY') AS DT_ULT_MANUT, 
+PE.NOME_PES AS USUARIO
+FROM RURALB.CTRCOMPRA CTR
+INNER JOIN RURALB.PRODSERV PS ON (CTR.CODI_PSV = PS.CODI_PSV)
+INNER JOIN RURALB.TIPOCTRC TC ON (CTR.CODI_TIC = TC.CODI_TIC)
+INNER JOIN RURALB.TRANSAC T ON (CTR.CODI_TRA = T.CODI_TRA)
+LEFT JOIN RURALB.TRANSAC T2 ON (CTR.AGEN_CCP) = T2.CODI_TRA
+LEFT JOIN RURALB.CADEMP CE ON (CTR.CODI_EMP = CE.CODI_EMP)
+LEFT JOIN RURALB.CICLO CP ON (CTR.CODI_CIC = CP.CODI_CIC)
+left JOIN RURALB.CADUSU CU ON (CTR.UUMANUT = CU.CODI_USU)
+LEFT JOIN RURALB.PESSOAL PE ON (CU.CODI_PES = PE.CODI_PES)
+LEFT JOIN RURALB.PESSOAL PE1 ON (CTR.CODI_PES = PE1.CODI_PES)
+LEFT JOIN RURALB.INDEXADOR IND ON (CTR.CODI_IND = IND.CODI_IND)
+LEFT JOIN RURALB.PROGRAMAPAR PRP ON (CTR.CODI_PRP = PRP.CODI_PRP)
+WHERE CTR.SITU_CCP <> 9 AND CTR.CODI_CIC > 10000022;
+
+STORE VW_CONTRATOS_V3_TABLEAU INTO [LIB://0.Extract/Siagri/VW_CONTRATOS_V3_TABLEAU.qvd](QVD);
+DROP TABLE VW_CONTRATOS_V3_TABLEAU;
+
+VW_CONTRATOS_V3_TABLEAU:
+LOAD
+    CODIGO,
+    REGIONAL,
+    UNIDADE,
+    VENDEDOR,
+    "COD. CICLO",
+    CICLO,
+    COMODITIE,
+    "TIPO CONTRATO",
+    "TIPO CONTRATO PADRAO",
+    MOEDA,
+    "Nº ORIGINAL",
+    "SERIE ORIGINAL",
+    "Nº CTR",
+    STATUS,
+    Date(Floor("DT NEGOCIO"), 'DD/MM/YYYY') AS "DT NEGOCIO",
+    Date(Floor("DT VENCTO/PARCELAS"), 'DD/MM/YYYY') AS "DT VENCTO/PARCELAS",
+    Date(Floor("PRAZO DE ENTREGA"), 'DD/MM/YYYY') AS "PRAZO DE ENTREGA",
+    "LOCAL DE ENTREGA",
+    "MUNICIPIO/UF",
+    "DESPESA ARMAZENAGEM",
+    "COMISSAO %",
+    AGENCIADOR,
+    COTACAO,
+    "VLR FRETE",
+    "PROGRAMA DE PARIDADE",
+    "COD. PARCEIRO",
+    "NOME COMPRADOR/VENDEDOR",
+    "VOLUME SC",
+    "VOLUME KG",
+    "VOLUME FIXADO SC",
+    "PR.UNT.SC BRUTO",
+    "VLR TOTAL CTR",
+    "PR.UNT.SC LIQ",
+    "VOLUME A FIXAR",
+    "FETHAB/FACS CTR",
+    "FETHAB/FACS NF",
+    "FUNRURAL/FAT/SENAR CTR",
+    "FUNRURAL/FAT/SENAR NF",
+    "QTD ENTREGUE KG - ROM",
+    "QTD ENTREGUE KG - NFE",
+    WASHOUT,
+    "SALDO SC",
+    "SALDO KG",
+    Date(Floor(DT_ULT_MANUT), 'DD/MM/YYYY') AS DT_ULT_MANUT,
+    USUARIO
+FROM [lib://0.Extract/Siagri/VW_CONTRATOS_V3_TABLEAU.qvd]
+(qvd);
+
+
+STORE VW_CONTRATOS_V3_TABLEAU INTO [lib://1.Transform/Siagri/VW_CONTRATOS_V3_TABLEAU.qvd](QVD);
+DROP TABLE VW_CONTRATOS_V3_TABLEAU;

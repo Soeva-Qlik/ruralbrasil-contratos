@@ -1,0 +1,741 @@
+[
+  {
+    "qIsHidden": true,
+    "qIsSystem": true,
+    "qName": "$Field",
+    "qCardinal": 61,
+    "qTags": [
+      "$hidden",
+      "$system",
+      "$text",
+      "$key"
+    ],
+    "qSrcTables": []
+  },
+  {
+    "qIsHidden": true,
+    "qIsSystem": true,
+    "qName": "$FieldNo",
+    "qCardinal": 50,
+    "qTags": [
+      "$hidden",
+      "$system",
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": []
+  },
+  {
+    "qIsHidden": true,
+    "qIsSystem": true,
+    "qName": "$Fields",
+    "qCardinal": 4,
+    "qTags": [
+      "$hidden",
+      "$system",
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": []
+  },
+  {
+    "qIsHidden": true,
+    "qIsSystem": true,
+    "qName": "$Info",
+    "qCardinal": 1,
+    "qTags": [
+      "$hidden",
+      "$system",
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": []
+  },
+  {
+    "qIsHidden": true,
+    "qIsSystem": true,
+    "qName": "$Rows",
+    "qCardinal": 5,
+    "qTags": [
+      "$hidden",
+      "$system",
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": []
+  },
+  {
+    "qIsHidden": true,
+    "qIsSystem": true,
+    "qName": "$Table",
+    "qCardinal": 5,
+    "qTags": [
+      "$hidden",
+      "$system",
+      "$text",
+      "$ascii",
+      "$key"
+    ],
+    "qSrcTables": []
+  },
+  {
+    "qName": "%LinkMTM",
+    "qCardinal": 186,
+    "qTags": [
+      "$text",
+      "$ascii",
+      "$key"
+    ],
+    "qSrcTables": [
+      "TabMTM",
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "AGENCIADOR",
+    "qCardinal": 0,
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "Ativo",
+    "qCardinal": 1,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "TabDescricaoCiclo"
+    ]
+  },
+  {
+    "qName": "CICLO",
+    "qCardinal": 4,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "COD. PARCEIRO",
+    "qCardinal": 409,
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "CODIGO",
+    "qCardinal": 23,
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "COMISSAO %",
+    "qCardinal": 0,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "COMODITIE",
+    "qCardinal": 6,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "COTACAO",
+    "qCardinal": 137,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "Ciclo",
+    "qCardinal": 4,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "TabDescricaoCiclo"
+    ]
+  },
+  {
+    "qName": "CodMoeda",
+    "qCardinal": 2,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "CodigoCiclo",
+    "qCardinal": 4,
+    "qTags": [
+      "$numeric",
+      "$integer",
+      "$key"
+    ],
+    "qSrcTables": [
+      "TabDescricaoCiclo",
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "Comentarios",
+    "qCardinal": 3,
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "TabDescricaoCiclo"
+    ]
+  },
+  {
+    "qName": "Comodite",
+    "qCardinal": 2,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "TabDescricaoCiclo"
+    ]
+  },
+  {
+    "qName": "CompraOuVenda",
+    "qCardinal": 2,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "DESPESA ARMAZENAGEM",
+    "qCardinal": 1,
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "DT NEGOCIO",
+    "qCardinal": 229,
+    "qTags": [
+      "$numeric",
+      "$integer",
+      "$timestamp",
+      "$date"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "DT VENCTO/PARCELAS",
+    "qCardinal": 81,
+    "qTags": [
+      "$numeric",
+      "$integer",
+      "$timestamp",
+      "$date"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "DT_ULT_MANUT",
+    "qCardinal": 159,
+    "qTags": [
+      "$numeric",
+      "$integer",
+      "$timestamp",
+      "$date"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "FETHAB/FACS CTR",
+    "qCardinal": 295,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "FETHAB/FACS NF",
+    "qCardinal": 163,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "FUNRURAL/FAT/SENAR CTR",
+    "qCardinal": 715,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "FUNRURAL/FAT/SENAR NF",
+    "qCardinal": 282,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "FlagCréditoBayer",
+    "qCardinal": 1,
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "TabRegionalTotalizada"
+    ]
+  },
+  {
+    "qName": "FlagMoedaReais",
+    "qCardinal": 2,
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "LOCAL DE ENTREGA",
+    "qCardinal": 105,
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "MOEDA",
+    "qCardinal": 2,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "MUNICIPIO/UF",
+    "qCardinal": 85,
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "MoedaCicloBarter",
+    "qCardinal": 2,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "TabDescricaoCiclo"
+    ]
+  },
+  {
+    "qName": "NOME COMPRADOR/VENDEDOR",
+    "qCardinal": 359,
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "Nº CTR",
+    "qCardinal": 1334,
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "Nº ORIGINAL",
+    "qCardinal": 1237,
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "ORDEM",
+    "qCardinal": 7,
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "TableClassificacao"
+    ]
+  },
+  {
+    "qName": "Observações",
+    "qCardinal": 1,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "TabDescricaoCiclo"
+    ]
+  },
+  {
+    "qName": "PR.UNT.SC BRUTO",
+    "qCardinal": 320,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "PR.UNT.SC LIQ",
+    "qCardinal": 704,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "PRAZO DE ENTREGA",
+    "qCardinal": 86,
+    "qTags": [
+      "$numeric",
+      "$integer",
+      "$timestamp",
+      "$date"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "PROGRAMA DE PARIDADE",
+    "qCardinal": 31,
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "QTD ENTREGUE KG - NFE",
+    "qCardinal": 260,
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "QTD ENTREGUE KG - ROM",
+    "qCardinal": 263,
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "REGIONAL",
+    "qCardinal": 7,
+    "qTags": [
+      "$text",
+      "$ascii",
+      "$key"
+    ],
+    "qSrcTables": [
+      "TableClassificacao",
+      "CONTRATOS",
+      "TabRegionalTotalizada"
+    ]
+  },
+  {
+    "qName": "RegionalConsolidado",
+    "qCardinal": 2,
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "TabRegionalTotalizada"
+    ]
+  },
+  {
+    "qName": "SALDO KG",
+    "qCardinal": 736,
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "SALDO SC",
+    "qCardinal": 736,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "SERIE ORIGINAL",
+    "qCardinal": 0,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "STATUS",
+    "qCardinal": 3,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "TIPO CONTRATO",
+    "qCardinal": 11,
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "TIPO CONTRATO PADRAO",
+    "qCardinal": 11,
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "TipoContrato",
+    "qCardinal": 2,
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "UNIDADE",
+    "qCardinal": 23,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "USUARIO",
+    "qCardinal": 29,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "VENDEDOR",
+    "qCardinal": 86,
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "VLR FRETE",
+    "qCardinal": 1,
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "VLR TOTAL CTR",
+    "qCardinal": 1045,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "VOLUME A FIXAR",
+    "qCardinal": 48,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "VOLUME FIXADO SC",
+    "qCardinal": 844,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "VOLUME KG",
+    "qCardinal": 885,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "VOLUME SC",
+    "qCardinal": 885,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "ValorMTM",
+    "qCardinal": 140,
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "TabMTM"
+    ]
+  },
+  {
+    "qName": "WASHOUT",
+    "qCardinal": 1,
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "CONTRATOS"
+    ]
+  },
+  {
+    "qName": "vCredBayer",
+    "qCardinal": 3,
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "TabDescricaoCiclo"
+    ]
+  }
+]

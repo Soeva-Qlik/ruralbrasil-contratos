@@ -1,0 +1,21 @@
+///$tab Dimensão
+TabMTM:
+LOAD
+	HASH128(NUM(NUM#(CodigoUnidade)),CodigoCiclo,Moeda) AS %LinkMTM,
+    Valor	as ValorMTM
+FROM [lib://MTM/DE-PARA MTM.xlsx]
+(ooxml, embedded labels, table is [MTM QLIK]);
+
+TabDescricaoCiclo:
+LOAD
+    CodigoCiclo,
+    Ciclo,
+    Comodite,
+    Ativo,
+    Comentarios,
+    Num(Num#(alt("Valor crédito bayer",0))) as vCredBayer,
+    Observações,
+    MoedaCicloBarter
+FROM [lib://MTM/DE-PARA MTM.xlsx](ooxml, embedded labels, table is CicloBarter)
+WHERE
+	Ativo = 'Sim';
