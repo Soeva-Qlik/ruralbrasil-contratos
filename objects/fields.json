@@ -5,10 +5,10 @@
     "qName": "$Field",
     "qCardinal": 61,
     "qTags": [
-      "$hidden",
-      "$system",
       "$text",
-      "$key"
+      "$key",
+      "$hidden",
+      "$system"
     ],
     "qSrcTables": []
   },
@@ -18,10 +18,10 @@
     "qName": "$FieldNo",
     "qCardinal": 50,
     "qTags": [
-      "$hidden",
-      "$system",
       "$numeric",
-      "$integer"
+      "$integer",
+      "$hidden",
+      "$system"
     ],
     "qSrcTables": []
   },
@@ -31,10 +31,10 @@
     "qName": "$Fields",
     "qCardinal": 4,
     "qTags": [
-      "$hidden",
-      "$system",
       "$numeric",
-      "$integer"
+      "$integer",
+      "$hidden",
+      "$system"
     ],
     "qSrcTables": []
   },
@@ -44,10 +44,10 @@
     "qName": "$Info",
     "qCardinal": 1,
     "qTags": [
-      "$hidden",
-      "$system",
       "$text",
-      "$ascii"
+      "$ascii",
+      "$hidden",
+      "$system"
     ],
     "qSrcTables": []
   },
@@ -57,10 +57,10 @@
     "qName": "$Rows",
     "qCardinal": 5,
     "qTags": [
-      "$hidden",
-      "$system",
       "$numeric",
-      "$integer"
+      "$integer",
+      "$hidden",
+      "$system"
     ],
     "qSrcTables": []
   },
@@ -70,11 +70,11 @@
     "qName": "$Table",
     "qCardinal": 5,
     "qTags": [
-      "$hidden",
-      "$system",
       "$text",
       "$ascii",
-      "$key"
+      "$key",
+      "$hidden",
+      "$system"
     ],
     "qSrcTables": []
   },
@@ -125,7 +125,7 @@
   },
   {
     "qName": "COD. PARCEIRO",
-    "qCardinal": 409,
+    "qCardinal": 425,
     "qTags": [
       "$numeric",
       "$integer"
@@ -168,7 +168,7 @@
   },
   {
     "qName": "COTACAO",
-    "qCardinal": 137,
+    "qCardinal": 148,
     "qTags": [
       "$numeric"
     ],
@@ -256,7 +256,7 @@
   },
   {
     "qName": "DT NEGOCIO",
-    "qCardinal": 229,
+    "qCardinal": 246,
     "qTags": [
       "$numeric",
       "$integer",
@@ -269,7 +269,7 @@
   },
   {
     "qName": "DT VENCTO/PARCELAS",
-    "qCardinal": 81,
+    "qCardinal": 88,
     "qTags": [
       "$numeric",
       "$integer",
@@ -282,7 +282,7 @@
   },
   {
     "qName": "DT_ULT_MANUT",
-    "qCardinal": 159,
+    "qCardinal": 174,
     "qTags": [
       "$numeric",
       "$integer",
@@ -295,7 +295,7 @@
   },
   {
     "qName": "FETHAB/FACS CTR",
-    "qCardinal": 295,
+    "qCardinal": 310,
     "qTags": [
       "$numeric"
     ],
@@ -305,7 +305,7 @@
   },
   {
     "qName": "FETHAB/FACS NF",
-    "qCardinal": 163,
+    "qCardinal": 170,
     "qTags": [
       "$numeric"
     ],
@@ -315,7 +315,7 @@
   },
   {
     "qName": "FUNRURAL/FAT/SENAR CTR",
-    "qCardinal": 715,
+    "qCardinal": 750,
     "qTags": [
       "$numeric"
     ],
@@ -325,7 +325,7 @@
   },
   {
     "qName": "FUNRURAL/FAT/SENAR NF",
-    "qCardinal": 282,
+    "qCardinal": 289,
     "qTags": [
       "$numeric"
     ],
@@ -357,7 +357,7 @@
   },
   {
     "qName": "LOCAL DE ENTREGA",
-    "qCardinal": 105,
+    "qCardinal": 107,
     "qTags": [
       "$text"
     ],
@@ -378,7 +378,7 @@
   },
   {
     "qName": "MUNICIPIO/UF",
-    "qCardinal": 85,
+    "qCardinal": 86,
     "qTags": [
       "$text"
     ],
@@ -399,7 +399,7 @@
   },
   {
     "qName": "NOME COMPRADOR/VENDEDOR",
-    "qCardinal": 359,
+    "qCardinal": 375,
     "qTags": [
       "$text"
     ],
@@ -409,7 +409,7 @@
   },
   {
     "qName": "Nº CTR",
-    "qCardinal": 1334,
+    "qCardinal": 1420,
     "qTags": [
       "$numeric",
       "$integer"
@@ -420,7 +420,7 @@
   },
   {
     "qName": "Nº ORIGINAL",
-    "qCardinal": 1237,
+    "qCardinal": 1319,
     "qTags": [
       "$text"
     ],
@@ -452,7 +452,7 @@
   },
   {
     "qName": "PR.UNT.SC BRUTO",
-    "qCardinal": 320,
+    "qCardinal": 358,
     "qTags": [
       "$numeric"
     ],
@@ -462,7 +462,7 @@
   },
   {
     "qName": "PR.UNT.SC LIQ",
-    "qCardinal": 704,
+    "qCardinal": 766,
     "qTags": [
       "$numeric"
     ],
@@ -472,7 +472,7 @@
   },
   {
     "qName": "PRAZO DE ENTREGA",
-    "qCardinal": 86,
+    "qCardinal": 90,
     "qTags": [
       "$numeric",
       "$integer",
@@ -485,7 +485,7 @@
   },
   {
     "qName": "PROGRAMA DE PARIDADE",
-    "qCardinal": 31,
+    "qCardinal": 35,
     "qTags": [
       "$text"
     ],
@@ -495,7 +495,7 @@
   },
   {
     "qName": "QTD ENTREGUE KG - NFE",
-    "qCardinal": 260,
+    "qCardinal": 272,
     "qTags": [
       "$numeric",
       "$integer"
@@ -506,7 +506,7 @@
   },
   {
     "qName": "QTD ENTREGUE KG - ROM",
-    "qCardinal": 263,
+    "qCardinal": 275,
     "qTags": [
       "$numeric",
       "$integer"
@@ -517,10 +517,9 @@
   },
   {
     "qName": "REGIONAL",
-    "qCardinal": 7,
+    "qCardinal": 14,
     "qTags": [
       "$text",
-      "$ascii",
       "$key"
     ],
     "qSrcTables": [
@@ -541,7 +540,7 @@
   },
   {
     "qName": "SALDO KG",
-    "qCardinal": 736,
+    "qCardinal": 780,
     "qTags": [
       "$numeric",
       "$integer"
@@ -552,7 +551,7 @@
   },
   {
     "qName": "SALDO SC",
-    "qCardinal": 736,
+    "qCardinal": 780,
     "qTags": [
       "$numeric"
     ],
@@ -636,7 +635,7 @@
   },
   {
     "qName": "VENDEDOR",
-    "qCardinal": 86,
+    "qCardinal": 89,
     "qTags": [
       "$text",
       "$ascii"
@@ -658,7 +657,7 @@
   },
   {
     "qName": "VLR TOTAL CTR",
-    "qCardinal": 1045,
+    "qCardinal": 1126,
     "qTags": [
       "$numeric"
     ],
@@ -668,7 +667,7 @@
   },
   {
     "qName": "VOLUME A FIXAR",
-    "qCardinal": 48,
+    "qCardinal": 45,
     "qTags": [
       "$numeric"
     ],
@@ -678,7 +677,7 @@
   },
   {
     "qName": "VOLUME FIXADO SC",
-    "qCardinal": 844,
+    "qCardinal": 915,
     "qTags": [
       "$numeric"
     ],
@@ -688,7 +687,7 @@
   },
   {
     "qName": "VOLUME KG",
-    "qCardinal": 885,
+    "qCardinal": 952,
     "qTags": [
       "$numeric"
     ],
@@ -698,7 +697,7 @@
   },
   {
     "qName": "VOLUME SC",
-    "qCardinal": 885,
+    "qCardinal": 952,
     "qTags": [
       "$numeric"
     ],

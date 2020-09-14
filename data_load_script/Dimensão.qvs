@@ -16,6 +16,7 @@ LOAD
     Num(Num#(alt("Valor crédito bayer",0))) as vCredBayer,
     Observações,
     MoedaCicloBarter
-FROM [lib://MTM/DE-PARA MTM.xlsx](ooxml, embedded labels, table is CicloBarter)
+FROM 
+	[lib://MTM/DE-PARA MTM.xlsx](ooxml, embedded labels, table is CicloBarter)
 WHERE
 	Ativo = 'Sim';

@@ -11,7 +11,172 @@
       "qnDec": 10,
       "qUseThou": 0
     },
-    "qDefinition": "=Sum({<MoedaCicloBarter = {\"USD\"}>}vCredBayer)",
+    "qDefinition": "=Sum({<MoedaCicloBarter = {\"USD\"}>} vCredBayer)",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "058730a0-ad1a-44e4-b7fa-8e25291b167f",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterDolarMTMRSSC",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "(($(cMTMRSSCDolar) - IF($(cBarterDolarSacasNet) < 0, ($(cBarterDolarPrecoMedioVenda)), ($(cBarterDolarPrecoMedioCompra)))) * ($(cBarterDolarSacasNet))) /1000\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "0bbb49e0-732a-4665-8566-a03c53161090",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterRealMargemRealizada",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "(IF($(cBarterRealSacasNet) < 0, $(cBarterRealSacasCompra), $(cBarterRealSacasVenda)) * ($(cBarterRealPrecoMedioNet))) / 1000\r\n\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "15d33c3a-879e-4251-bd3c-e9e7ffcb5d8b",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoRealPrecoMedioNet",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t($(cOriginacaoRealPrecoMedioVenda)) - ($(cOriginacaoRealPrecoMedioCompra))\r\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "16636c04-f4c9-484c-af66-a55da2df4aba",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cMTMRSSCDolar",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "AVG(AGGR(SUM({<CodMoeda={\"USD\"}>}ValorMTM),UNIDADE))",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "16e84ff7-d703-453c-83a3-37fb40ababd9",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterRealPrecoMedioCompra",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "$(vCompraVendaSacasValorTotalCTR('BARTER', 'BRL', 'COMPRA'))\r\n/\n$(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "1a84d075-fb0e-4d9d-adbe-3cce03d00fa7",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterDolarPrecoMedioNet",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t($(cBarterDolarPrecoMedioVenda)) - ($(cBarterDolarPrecoMedioCompra))\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "1c2b7628-be5b-4617-8c2b-722f964707f7",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoRealMargemRealizada",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t(IF($(cOriginacaoRealSacasNet) < 0, $(cOriginacaoRealSacasCompra), $(cOriginacaoRealSacasVenda)) * ($(cOriginacaoRealPrecoMedioNet))) / 1000\r\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "247ee2cc-6484-4b3a-8b03-ae3730282c3a",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterRealMTMRSSC",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "(($(cMTMRSSC) - IF($(cBarterRealSacasNet) < 0, ($(cBarterRealPrecoMedioVenda)), ($(cBarterRealPrecoMedioCompra)))) * ($(cBarterRealSacasNet))) /1000\r\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "27b1fa86-ef65-45e2-ba15-450e92aeee37",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterDolarSacasNet",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(cBarterDolarSacasCompra) -   $(cBarterDolarSacasVenda)\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "2a9986d2-bd24-4c08-bed0-cf7d17dc7a37",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoDolarSacasVenda",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(vCompraVendaSacasValorFixadoSC('ORIGINAÇÃO','USD','VENDA'))\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "2a9d98a5-5d39-4554-81f0-379f7189078d",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoRealSacasVenda",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(vCompraVendaSacasValorFixadoSC('ORIGINAÇÃO','BRL','VENDA'))\r\n",
     "tags": []
   },
   {
@@ -31,6 +196,21 @@
   },
   {
     "qInfo": {
+      "qId": "31c5e764-6511-42e3-8bb2-7a0c880df9e0",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoDolarMTMRSSC",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "(($(cMTMRSSCDolar) - IF($(cOriginacaoDolarSacasNet) < 0, ($(cOriginacaoDolarPrecoMedioVenda)), ($(cOriginacaoDolarPrecoMedioCompra)))) * ($(cOriginacaoDolarSacasNet))) /1000\r\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
       "qId": "335f14cc-eff3-4b6f-b8b7-23ec3dffc756",
       "qType": "variable"
     },
@@ -42,6 +222,51 @@
       "qUseThou": 0
     },
     "qDefinition": "=if(CICLO = 'SAFRA 2020/2021', 'Safra 20.21',\r\n\tif(CICLO = 'SAFRINHA 2020', 'Safrinha 20',\n    \tif(CICLO = 'SAFRINHA 2021', 'Safrinha 21',\n        \tif(CICLO = 'SAFRA 2021/2022', 'Safra 21.22'\n\t\n))))",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "3650f63d-513b-4b0f-9aaa-13aa9e6209a5",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterRealSacasNet",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "$(cBarterRealSacasCompra) -   $(cBarterRealSacasVenda)",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "3bcdca65-64c3-4f1c-b99d-35c995e62047",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoRealPrecoMedioVenda",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(vCompraVendaSacasValorTotalCTR('ORIGINAÇÃO', 'BRL', 'VENDA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('ORIGINAÇÃO', 'BRL', 'VENDA'))",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "3c9b3ce2-8b8a-4ad0-8652-edb257b0483f",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoDolarSacasCompra",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(vCompraVendaSacasValorFixadoSC('ORIGINAÇÃO','USD','COMPRA'))\r\n",
     "tags": []
   },
   {
@@ -61,6 +286,21 @@
   },
   {
     "qInfo": {
+      "qId": "47351e6d-ea2c-41ce-8844-a13d9dea2679",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cMTMRSSC",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "AVG(AGGR(SUM({<CodMoeda={\"BRL\"}>}ValorMTM),UNIDADE))",
+    "tags": []
+  },
+  {
+    "qInfo": {
       "qId": "4985f35e-2f1c-491b-af7b-b34e3bedc995",
       "qType": "variable"
     },
@@ -72,6 +312,21 @@
       "qUseThou": 0
     },
     "qDefinition": "(\r\n\tif(\n    \t($(vCompraVendaSacasValorFixadoSC('BARTER','BRL','COMPRA')) - $(vCompraVendaSacasValorFixadoSC('BARTER','BRL','VENDA'))) <0, // coluna(3)\n\t\t$(vCompraVendaSacasValorFixadoSC('BARTER','BRL','COMPRA')), // coluna(1)\t\t\n        $(vCompraVendaSacasValorFixadoSC('BARTER','BRL','VENDA'))  // coluna(2)\n    \t)\n\t* \n    \t(\n    \t\t($(vCompraVendaSacasValorTotalCTR('BARTER', 'BRL', 'VENDA')) / $(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'VENDA'))) //coluna(5)\n            -\n            ($(vCompraVendaSacasValorTotalCTR('BARTER', 'BRL', 'COMPRA')) / $(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))) // coluna(4)\n\t\t) // coluna(6)\n) / 1000",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "5067f9e5-1a6c-489e-8bf1-5ff2f10fd2b1",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoRealSacasCompra",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(vCompraVendaSacasValorFixadoSC('ORIGINAÇÃO','BRL','COMPRA'))\r\n",
     "tags": []
   },
   {
@@ -91,6 +346,51 @@
   },
   {
     "qInfo": {
+      "qId": "5ef8608b-a5e3-4598-9de0-1979e07a971e",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterDolarPrecoMedioVenda",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(vCompraVendaSacasValorTotalCTR('BARTER', 'USD', 'VENDA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'VENDA'))",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "62063100-f009-488c-9c30-8d440662d6a7",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoDolarMargemRealizada",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t(IF($(cOriginacaoDolarSacasNet) < 0, $(cOriginacaoDolarSacasCompra), $(cOriginacaoDolarSacasVenda)) * ($(cOriginacaoDolarPrecoMedioNet))) / 1000\r\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "758eb6ad-d074-4abb-b09e-841e95d2f106",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterDolarMargemRealizada",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t(IF($(cBarterDolarSacasNet) < 0, $(cBarterDolarSacasCompra), $(cBarterDolarSacasVenda)) * ($(cBarterDolarPrecoMedioNet))) / 1000\r\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
       "qId": "80854a36-ee8b-4854-8946-92b6583b22a4",
       "qType": "variable"
     },
@@ -102,6 +402,21 @@
       "qUseThou": 0
     },
     "qDefinition": "=Sum({<MoedaCicloBarter = {\"BRL\"}>}vCredBayer)",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "8273cc6a-f1bf-4b65-82da-68b617b73267",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoDolarSacasNet",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(cOriginacaoDolarSacasCompra) -   $(cOriginacaoDolarSacasVenda)\n",
     "tags": []
   },
   {
@@ -121,6 +436,66 @@
   },
   {
     "qInfo": {
+      "qId": "8ae7fcf3-513f-4d17-8530-03265347ee90",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterDolarSacasCompra",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(vCompraVendaSacasValorFixadoSC('BARTER','USD','COMPRA'))\r\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "8c0e1ed6-e05d-4470-a438-71ab31ba8491",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoDolarPrecoMedioNet",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t($(cOriginacaoDolarPrecoMedioVenda)) - ($(cOriginacaoDolarPrecoMedioCompra))\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "9ebc326e-a8ea-4bc8-a05e-72e1bfd56dbe",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoRealPrecoMedioCompra",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(vCompraVendaSacasValorTotalCTR('ORIGINAÇÃO', 'BRL', 'COMPRA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('ORIGINAÇÃO', 'BRL', 'COMPRA'))",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "aa8d1b92-1643-400b-8369-235fcea2b852",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterDolarPrecoMedioCompra",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(vCompraVendaSacasValorTotalCTR('BARTER', 'USD', 'COMPRA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'COMPRA'))",
+    "tags": []
+  },
+  {
+    "qInfo": {
       "qId": "ae048d89-2b9c-4a3f-9577-9b334909eafd",
       "qType": "variable"
     },
@@ -132,6 +507,96 @@
       "qUseThou": 0
     },
     "qDefinition": "SUM({<TipoContrato={$1},CodMoeda={$2},CompraOuVenda={$3}>} [VLR TOTAL CTR])",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "b4cf4b6b-8f6d-44db-9cb5-38fbd769e7ca",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterDolarSacasVenda",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(vCompraVendaSacasValorFixadoSC('BARTER','USD','VENDA'))\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "b5f277b4-5345-4017-aab4-44c388e1586b",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterRealSacasVenda",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "$(vCompraVendaSacasValorFixadoSC('BARTER','BRL','VENDA'))\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "b6cdc4f1-09ac-4fdd-991f-7db24f103048",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterRealPrecoMedioVenda",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "$(vCompraVendaSacasValorTotalCTR('BARTER', 'BRL', 'VENDA'))\r\n/\n$(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'VENDA'))\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "c5a222fd-970b-42ba-a722-1d6058e3d79f",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoRealSacasNet",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(cOriginacaoRealSacasCompra) -   $(cOriginacaoRealSacasVenda)\r\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "c8762199-7e23-4c01-b0d8-5d32b66e8978",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoDolarPrecoMedioCompra",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(vCompraVendaSacasValorTotalCTR('ORIGINAÇÃO', 'USD', 'COMPRA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('ORIGINAÇÃO', 'USD', 'COMPRA'))",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "d10220b0-2eb5-42a6-bc13-716abca956a9",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterRealSacasCompra",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "$(vCompraVendaSacasValorFixadoSC('BARTER','BRL','COMPRA'))\n",
     "tags": []
   },
   {
@@ -151,6 +616,36 @@
   },
   {
     "qInfo": {
+      "qId": "e10e8c67-11ea-473c-b6d7-91f10b1981a8",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoRealMTMRSSC",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "((($(cMTMRSSC)) - IF(($(cOriginacaoRealSacasNet)) < 0,($(cOriginacaoRealPrecoMedioVenda)), $(cOriginacaoRealPrecoMedioCompra))) * ($(cOriginacaoRealSacasNet))) /1000\r\n",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "eaf14b24-68e2-4202-b457-c35b67253b13",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cOriginacaoDolarPrecoMedioVenda",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "\t$(vCompraVendaSacasValorTotalCTR('ORIGINAÇÃO', 'USD', 'VENDA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('ORIGINAÇÃO', 'USD', 'VENDA'))",
+    "tags": []
+  },
+  {
+    "qInfo": {
       "qId": "f4635f11-149c-4814-ba84-d85cfdce3510",
       "qType": "variable"
     },
@@ -162,6 +657,21 @@
       "qUseThou": 0
     },
     "qDefinition": "IF(RowNo()=0,\r\n\tsum(AGGR(((AVG(AGGR(SUM({<CodMoeda={'BRL'}>}ValorMTM),UNIDADE)) - IF((($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'COMPRA'))))-(($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'VENDA')))) < 0, (\t($(vCompraVendaSacasValorTotalCTR(\"*\", 'BRL', 'VENDA')) + ($(vCompraVendaSacasValorTotalCTR(\"*\", 'USD', 'VENDA')) * vPtax))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC(\"*\", \"*\", 'VENDA'))), (\t($(vCompraVendaSacasValorTotalCTR(\"*\", 'BRL', 'COMPRA')) + ($(vCompraVendaSacasValorTotalCTR(\"*\", 'USD', 'COMPRA')) * vPtax))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC(\"*\", \"*\", 'COMPRA'))))) * ((($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'COMPRA'))))-(($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'VENDA')))))) /1000,REGIONAL)),\n    ''\n)",
+    "tags": []
+  },
+  {
+    "qInfo": {
+      "qId": "fa0c770f-61c0-4153-b63c-e90aa5dc90f4",
+      "qType": "variable"
+    },
+    "qMetaDef": {},
+    "qName": "cBarterRealPrecoMedioNet",
+    "qNumberPresentation": {
+      "qType": "U",
+      "qnDec": 10,
+      "qUseThou": 0
+    },
+    "qDefinition": "($(cBarterRealPrecoMedioVenda)) - ($(cBarterRealPrecoMedioCompra))",
     "tags": []
   },
   {

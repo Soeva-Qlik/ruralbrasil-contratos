@@ -218,7 +218,7 @@
               },
               "qNullSuppression": true,
               "qOtherTotalSpec": {
-                "qOtherMode": "OTHER_ABS_LIMITED",
+                "qOtherMode": "OTHER_OFF",
                 "qOtherCounted": {
                   "qv": "10"
                 },
@@ -1048,7 +1048,7 @@
                 "qLabel": "Realizada (R$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "(IF(COLUMN(3) < 0, COLUMN(1), COLUMN(2)) * COLUMN(6)) / 1000\r\n\n//(COLUMN(6) * COLUMN(1)) / 1000",
+                "qDef": "SUM(AGGR(\r\nALT(($(cBarterRealMargemRealizada)),0)\n+ALT(($(cOriginacaoRealMargemRealizada)),0)\n+ALT((($(cBarterDolarMargemRealizada)) * vPtax),0)\n+ALT((($(cOriginacaoDolarMargemRealizada)) * vPtax),0)\n,UNIDADE,REGIONAL))\n",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -1180,7 +1180,7 @@
                   "qDec": ",",
                   "qThou": "."
                 },
-                "qAggrFunc": "Avg",
+                "qAggrFunc": "Expr",
                 "qAccumulate": 0,
                 "qActiveExpression": 0,
                 "qExpressions": [],
@@ -1293,7 +1293,7 @@
                 "qLabel": "R$/Mil",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "((COLUMN(8) - IF(COLUMN(3) < 0, COLUMN(5), COLUMN(4))) * COLUMN(3)) /1000",
+                "qDef": "sum(AGGR(((AVG(AGGR(SUM({<CodMoeda={'BRL'}>}ValorMTM),UNIDADE)) - IF((($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'COMPRA'))))-(($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'VENDA')))) < 0, (\t($(vCompraVendaSacasValorTotalCTR(\"*\", 'BRL', 'VENDA')) + ($(vCompraVendaSacasValorTotalCTR(\"*\", 'USD', 'VENDA')) * vPtax))\r\n\t/\n\t$(vCompraVendaSacasValorFixadoSC(\"*\", \"*\", 'VENDA'))), (\t($(vCompraVendaSacasValorTotalCTR(\"*\", 'BRL', 'COMPRA')) + ($(vCompraVendaSacasValorTotalCTR(\"*\", 'USD', 'COMPRA')) * vPtax))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC(\"*\", \"*\", 'COMPRA'))))) * ((($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'COMPRA'))))-(($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'VENDA')))))) /1000,UNIDADE,REGIONAL))",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -2558,7 +2558,7 @@
                   "qDec": ",",
                   "qThou": "."
                 },
-                "qAggrFunc": "Sum",
+                "qAggrFunc": "Expr",
                 "qAccumulate": 0,
                 "qActiveExpression": 0,
                 "qExpressions": [],
@@ -2794,7 +2794,7 @@
                 "qLabel": "Realizada (R$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "(if(COLUMN(3) < 0, COLUMN(1), COLUMN(2)) * COLUMN(6)) / 1000\r\n\n\n",
+                "qDef": "SUM(AGGR($(cBarterRealMargemRealizada),UNIDADE,REGIONAL))\r\n\n//(if(COLUMN(3) < 0, COLUMN(1), COLUMN(2)) * COLUMN(6)) / 1000\n\n\n",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -2917,7 +2917,7 @@
                 "qLabel": "R$/SC",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "AVG(AGGR(SUM({<CodMoeda={\"BRL\"}>}ValorMTM),UNIDADE))\r\n",
+                "qDef": "$(cMTMRSSC)",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -3039,7 +3039,7 @@
                 "qLabel": "R$/Mil",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "((COLUMN(8) - IF(COLUMN(3) < 0, COLUMN(5), COLUMN(4))) * COLUMN(3)) / 1000",
+                "qDef": "SUM(AGGR($(cBarterRealMTMRSSC),UNIDADE,REGIONAL))",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -3161,7 +3161,7 @@
                 "qLabel": "Safra (R$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "Column(7) + Column(9)",
+                "qDef": "sum(aggr(($(cBarterRealMargemRealizada))  + ($(cBarterRealMTMRSSC)),UNIDADE,REGIONAL))",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -4425,7 +4425,7 @@
                 "qLabel": "Realizada (R$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "(IF(COLUMN(3) < 0, COLUMN(1), COLUMN(2)) * COLUMN(6)) / 1000\r\n",
+                "qDef": "SUM(AGGR($(cOriginacaoRealMargemRealizada),UNIDADE,REGIONAL))",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -4670,7 +4670,7 @@
                 "qLabel": "R$/Mil",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "((COLUMN(8) - IF(COLUMN(3) < 0, COLUMN(5), COLUMN(4))) * COLUMN(3)) / 1000",
+                "qDef": "SUM(aGGR(\r\n$(cOriginacaoRealMTMRSSC)\n,UNIDADE,REGIONAL))",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -4792,7 +4792,7 @@
                 "qLabel": "Safra (R$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "(COLUMN(7) + COLUMN(9))",
+                "qDef": "sum(aggr(($(cOriginacaoRealMargemRealizada))  + ($(cOriginacaoRealMTMRSSC)),UNIDADE,REGIONAL))",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -5225,7 +5225,7 @@
               },
               "qNullSuppression": true,
               "qOtherTotalSpec": {
-                "qOtherMode": "OTHER_ABS_LIMITED",
+                "qOtherMode": "OTHER_OFF",
                 "qOtherCounted": {
                   "qv": "10"
                 },
@@ -6055,7 +6055,7 @@
                 "qLabel": "Realizada (US$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "(IF(COLUMN(3) < 0, COLUMN(1), COLUMN(2)) * COLUMN(6)) / 1000 \r\n\n",
+                "qDef": "sum(Aggr($(cBarterDolarMargemRealizada),UNIDADE,REGIONAL))",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -6300,7 +6300,7 @@
                 "qLabel": "US$/Mil",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "((COLUMN(8) - IF(COLUMN(3) < 0, COLUMN(5), COLUMN(4))) * COLUMN(3)) /1000",
+                "qDef": "SUM(aGGR($(cBarterDolarMTMRSSC),UNIDADE,REGIONAL))",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -6422,7 +6422,7 @@
                 "qLabel": "Safra (US$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "(COLUMN(7) + COLUMN(9))",
+                "qDef": "sum(aggr(($(cBarterDolarMargemRealizada))  + ($(cBarterDolarMTMRSSC)),UNIDADE,REGIONAL))",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -6855,7 +6855,7 @@
               },
               "qNullSuppression": true,
               "qOtherTotalSpec": {
-                "qOtherMode": "OTHER_ABS_LIMITED",
+                "qOtherMode": "OTHER_OFF",
                 "qOtherCounted": {
                   "qv": "10"
                 },
@@ -7685,7 +7685,7 @@
                 "qLabel": "Realizada (US$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "(IF(COLUMN(3) < 0, COLUMN(1), COLUMN(2)) * COLUMN(6)) / 1000\r\n\n//(COLUMN(6) * COLUMN(1)) / 1000",
+                "qDef": "SUM(AGGR($(cOriginacaoDolarMargemRealizada),UNIDADE,REGIONAL))",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -7930,7 +7930,7 @@
                 "qLabel": "US$/Mil",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "((COLUMN(8) - IF(COLUMN(3) < 0, COLUMN(5), COLUMN(4))) * COLUMN(3)) / 1000",
+                "qDef": "SUM(aGGR($(cOriginacaoDolarMTMRSSC),UNIDADE,REGIONAL))",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -8052,7 +8052,7 @@
                 "qLabel": "Safra (US$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "(COLUMN(7) + COLUMN(9))",
+                "qDef": "sum(aggr(($(cOriginacaoDolarMargemRealizada))  + ($(cOriginacaoDolarMTMRSSC)),UNIDADE,REGIONAL))",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -9298,7 +9298,7 @@
                 "qLabel": "Realizada (R$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "if(RowNo()=0,\r\n\t(Sum({<MoedaCicloBarter = {\"USD\"}>}vCredBayer)*vPtax)+(SUM(AGGR((IF((($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'COMPRA'))))-(($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'VENDA')))) < 0, ($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'COMPRA'))), ($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'VENDA')))) * ((\t($(vCompraVendaSacasValorTotalCTR(\"*\", 'BRL', 'VENDA')) + ($(vCompraVendaSacasValorTotalCTR(\"*\", 'USD', 'VENDA')) * vPtax))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC(\"*\", \"*\", 'VENDA'))) - (\t($(vCompraVendaSacasValorTotalCTR(\"*\", 'BRL', 'COMPRA')) + ($(vCompraVendaSacasValorTotalCTR(\"*\", 'USD', 'COMPRA')) * vPtax))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC(\"*\", \"*\", 'COMPRA'))))) / 1000,REGIONAL))),\n    Sum($(vDolar))*vPtax\n) + $(vReal)",
+                "qDef": "if(RowNo()=0,\r\nSUM(AGGR(\nALT(($(cBarterRealMargemRealizada)),0)\n+ALT(($(cOriginacaoRealMargemRealizada)),0)\n+ALT((($(cBarterDolarMargemRealizada)) * vPtax),0)\n+ALT((($(cOriginacaoDolarMargemRealizada)) * vPtax),0)\n,UNIDADE,REGIONAL)) +  Sum($(vDolar))*vPtax,\n    Sum($(vDolar))*vPtax\n) + $(vReal)",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -9421,7 +9421,7 @@
                 "qLabel": "R$/SC",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "IF(RowNo()=0,\r\n\tAVG(AGGR(AVG(AGGR(SUM({<CodMoeda={'BRL'}>}ValorMTM),UNIDADE)),REGIONAL)),\n    ''\n)",
+                "qDef": "IF(RowNo()=0,\r\n\tAVG(AGGR(SUM({<CodMoeda={'BRL'}>}ValorMTM),UNIDADE)),\n    ''\n)",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -9543,7 +9543,7 @@
                 "qLabel": "R$/Mil",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "IF(RowNo()=0,\r\n\tsum(AGGR(((AVG(AGGR(SUM({<CodMoeda={'BRL'}>}ValorMTM),UNIDADE)) - IF((($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'COMPRA'))))-(($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'VENDA')))) < 0, (\t($(vCompraVendaSacasValorTotalCTR(\"*\", 'BRL', 'VENDA')) + ($(vCompraVendaSacasValorTotalCTR(\"*\", 'USD', 'VENDA')) * vPtax))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC(\"*\", \"*\", 'VENDA'))), (\t($(vCompraVendaSacasValorTotalCTR(\"*\", 'BRL', 'COMPRA')) + ($(vCompraVendaSacasValorTotalCTR(\"*\", 'USD', 'COMPRA')) * vPtax))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC(\"*\", \"*\", 'COMPRA'))))) * ((($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'COMPRA'))))-(($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'VENDA')))))) /1000,REGIONAL)),\n    ''\n)",
+                "qDef": "IF(RowNo()=0,\r\n\tsum(AGGR(((AVG(AGGR(SUM({<CodMoeda={'BRL'}>}ValorMTM),UNIDADE)) - IF((($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'COMPRA'))))-(($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'VENDA')))) < 0, (\t($(vCompraVendaSacasValorTotalCTR(\"*\", 'BRL', 'VENDA')) + ($(vCompraVendaSacasValorTotalCTR(\"*\", 'USD', 'VENDA')) * vPtax))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC(\"*\", \"*\", 'VENDA'))), (\t($(vCompraVendaSacasValorTotalCTR(\"*\", 'BRL', 'COMPRA')) + ($(vCompraVendaSacasValorTotalCTR(\"*\", 'USD', 'COMPRA')) * vPtax))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC(\"*\", \"*\", 'COMPRA'))))) * ((($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'COMPRA'))))-(($(vCompraVendaSacasValorFixadoSC(\"*\",\"*\",'VENDA')))))) /1000,UNIDADE,REGIONAL)),\n    ''\n)",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -9665,7 +9665,7 @@
                 "qLabel": "Safra (R$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "if(RowNo()=0,\r\n\t(COLUMN(7) + $(vCalculoUSDConsolidado)),\n    ($(vDolar)*vPtax) + $(vReal)\n)",
+                "qDef": "if(RowNo()=0,\r\n\t(COLUMN(7) + COLUMN(9)),\n    ($(vDolar)*vPtax) + $(vReal)\n)",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -10859,7 +10859,7 @@
                 "qLabel": "Realizada (R$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "if(RowNo()=0,\r\nSum({<MoedaCicloBarter = {\"USD\"}>}vCredBayer) + SUM(AGGR((IF((($(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','USD','VENDA'))\n)) < 0, ($(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'COMPRA'))), ($(vCompraVendaSacasValorFixadoSC('BARTER','USD','VENDA'))\n)) *(($(vCompraVendaSacasValorTotalCTR('BARTER', 'USD', 'VENDA'))\n/\n$(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'VENDA'))) -($(vCompraVendaSacasValorTotalCTR('BARTER', 'USD', 'COMPRA'))\n/\n$(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'COMPRA'))\n))) / 1000,REGIONAL)),\n    Sum($(vDolar))\n)\n",
+                "qDef": "if(RowNo()=0,\r\nsum(Aggr($(cBarterDolarMargemRealizada),UNIDADE,REGIONAL)) + Sum($(vDolar)),\n    Sum($(vDolar))\n)\n",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -11104,7 +11104,7 @@
                 "qLabel": "R$/Mil",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "if(RowNo()=0,\r\n\tsum(aggr(((AVG(AGGR(SUM({<CodMoeda={'USD'}>}ValorMTM),UNIDADE)) - IF((($(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','USD','VENDA'))\n\t)) < 0, ($(vCompraVendaSacasValorTotalCTR('BARTER', 'USD', 'VENDA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'VENDA'))\n\t), ($(vCompraVendaSacasValorTotalCTR('BARTER', 'USD', 'COMPRA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'COMPRA'))))) * (($(vCompraVendaSacasValorFixadoSC('BARTER', 'USD', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','USD','VENDA'))\n\t))) /1000,REGIONAL)),\n    ''\n)",
+                "qDef": "if(RowNo()=0,\r\nSUM(aGGR($(cBarterDolarMTMRSSC),UNIDADE,REGIONAL)),\n    ''\n)",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -11226,7 +11226,7 @@
                 "qLabel": "Safra (R$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "if(RowNo() = 0,\r\n\t(Sum(Aggr($(vCalculoMargemRealizadaUSD) + $(vCalculoMTMUSDMi),REGIONAL)) + $(vDolar)),\n    $(vDolar)\n)",
+                "qDef": "if(RowNo() = 0,\r\n\t(sum(aggr(($(cBarterDolarMargemRealizada))  + ($(cBarterDolarMTMRSSC)),UNIDADE,REGIONAL))+ $(vDolar)),\n    $(vDolar)\n)",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -12427,7 +12427,7 @@
                 "qLabel": "Realizada (R$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "if(RowNo() = 0,\r\n\t$(vCaculoRealizadaMargemBRL) - $(vReal),\n    $(vReal)\n)",
+                "qDef": "if(RowNo() = 0,\r\n\tSUM(AGGR($(cBarterRealMargemRealizada),UNIDADE,REGIONAL)) + $(vReal),\n    $(vReal)\n)",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -12672,7 +12672,7 @@
                 "qLabel": "R$/Mil",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "if(RowNo()=0,\r\n\t$(vCalculoMTMRSMil),\n\t''\n)\n/*\nif(RowNo()=0,\n\tsum(aggr(((AVG(AGGR(SUM({<CodMoeda={'BRL'}>}ValorMTM),UNIDADE)) - IF((($(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','BRL','VENDA'))\n\t)) < 0, ($(vCompraVendaSacasValorTotalCTR('BARTER', 'BRL', 'VENDA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'VENDA'))\n\t), ($(vCompraVendaSacasValorTotalCTR('BARTER', 'BRL', 'COMPRA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))))) * (($(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','BRL','VENDA'))\n\t))) /1000,REGIONAL)),\n    ''\n)\n*/",
+                "qDef": "if(RowNo()=0,\r\n\tSUM(AGGR($(cBarterRealMTMRSSC),UNIDADE,REGIONAL)),\n\t''\n)\n/*\nif(RowNo()=0,\n\tsum(aggr(((AVG(AGGR(SUM({<CodMoeda={'BRL'}>}ValorMTM),UNIDADE)) - IF((($(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','BRL','VENDA'))\n\t)) < 0, ($(vCompraVendaSacasValorTotalCTR('BARTER', 'BRL', 'VENDA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'VENDA'))\n\t), ($(vCompraVendaSacasValorTotalCTR('BARTER', 'BRL', 'COMPRA'))\n\t/\n\t$(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))))) * (($(vCompraVendaSacasValorFixadoSC('BARTER', 'BRL', 'COMPRA'))) - ($(vCompraVendaSacasValorFixadoSC('BARTER','BRL','VENDA'))\n\t))) /1000,REGIONAL)),\n    ''\n)\n*/",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,
@@ -12794,7 +12794,7 @@
                 "qLabel": "Safra (R$/Mil)",
                 "qTags": [],
                 "qGrouping": "N",
-                "qDef": "if(RowNo() = 0,\r\n\t(Sum(Aggr($(vCaculoRealizadaMargemBRL) + $(vCalculoMTMRSMil),REGIONAL)) + $(vReal)),\n    $(vReal)\n)",
+                "qDef": "if(RowNo() = 0,\r\n\t(sum(aggr(($(cBarterRealMargemRealizada))  + ($(cBarterRealMTMRSSC)),UNIDADE,REGIONAL)) + $(vReal)),\n    $(vReal)\n)",
                 "qNumFormat": {
                   "qType": "F",
                   "qnDec": 2,

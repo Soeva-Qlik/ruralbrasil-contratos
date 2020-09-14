@@ -1,1 +1,1 @@
-Main%tab_order_divider%Dolar%tab_order_divider%Dimensão%tab_order_divider%TableClassificação%tab_order_divider%Contratos%tab_order_divider%Exit Script%tab_order_divider%Extract Transform_antigo%tab_order_divider%Extract Transform
+Main%tab_order_divider%Extract Transform%tab_order_divider%Variaveis%tab_order_divider%Dolar%tab_order_divider%Dimensão%tab_order_divider%TableClassificação%tab_order_divider%Contratos%tab_order_divider%Exit Script%tab_order_divider%Extract Transform_antigo
